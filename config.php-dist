@@ -1,0 +1,14 @@
+<?php
+
+return [
+    //
+    'clanId' => 0,
+    //
+    'clanMemberLogin' => 'your@mail.com',
+    'clanMemberPassword' => 'pass',
+    // DB
+    'postgres_host' => '1.0.0.127',
+    'postgres_database' => 'example',
+    'postgres_user' => 'example',
+    'postgres_password' => 'example',
+];

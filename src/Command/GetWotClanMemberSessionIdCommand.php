@@ -5,7 +5,7 @@ namespace hwao\WotClanTools\Command;
 use Facebook\WebDriver\Remote\RemoteWebDriver;
 use Psr\Log\LoggerInterface;
 
-class GetWotClanMemberSessionIdCommand
+class GetWotClanMemberSessionIdCommand implements iCommand
 {
     private string $sessionId;
 

@@ -5,6 +5,7 @@ namespace hwao\WotClanTools;
 use Facebook\WebDriver\Remote\RemoteWebDriver;
 use hwao\WotClanTools\Command\GetWotClanGetPlayersOnlineListCommand;
 use hwao\WotClanTools\Command\GetWotClanMemberSessionIdCommand;
+use hwao\WotClanTools\Command\GetWotClanRecruitRecommendedAccountsCommand;
 use Psr\Log\LoggerInterface;
 
 class WotClanWebCrawler
@@ -47,6 +48,33 @@ class WotClanWebCrawler
         $getWotClanMemberSessionIdCommand->execute();
 
         return $getWotClanMemberSessionIdCommand->getSessionId();
+    }
+
+    /**
+     * @return GetWotClanRecruitRecommendedAccountsCommand\Account[]
+     */
+    public function getClanRecruitList(string $clanMemberSessionId): array
+    {
+        $getWotClanRecruitRecommendedAccountsCommand = new GetWotClanRecruitRecommendedAccountsCommand(
+            $clanMemberSessionId,
+            \Symfony\Component\HttpClient\HttpClient::create(),
+            $this->log
+        );
+
+        $getWotClanRecruitRecommendedAccountsCommand->execute();
+
+        return $getWotClanRecruitRecommendedAccountsCommand->getRecruitList();
+    }
+
+    public function sendInvitationToClan(GetWotClanRecruitRecommendedAccountsCommand\Account $recrut, string $clanMemberSessionId)
+    {
+        $sendWotClanInviteCommand = new \hwao\WotClanTools\Command\SendWotClanInviteCommand(
+            $recrut,
+            $clanMemberSessionId,
+            \Symfony\Component\HttpClient\HttpClient::create(),
+            $this->log
+        );
+        $sendWotClanInviteCommand->execute();
     }
 
     private static function createDriverChrome()

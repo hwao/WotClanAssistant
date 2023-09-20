@@ -21,7 +21,8 @@ create directory/files
 ```
 mkdir var/
 mkdir var/cache/
-touch var/app.log
+touch var/players_online.log 
+touch var/recruit.log
 ```
 
 
@@ -30,6 +31,7 @@ crontab
 ```bash
 crontab -e
 
-*/15 * * * * php /home/hwao/Documents/php/WotClanPlayerStatus/run.php
+*/15 * * * * php /home/hwao/Documents/php/WotClanPlayerStatus/run_players_online.php
+*/20 * * * * php /home/hwao/Documents/php/WotClanPlayerStatus/run_recruit.php
 
 ```

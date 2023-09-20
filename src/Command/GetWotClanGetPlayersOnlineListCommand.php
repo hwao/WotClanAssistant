@@ -7,7 +7,7 @@ use Psr\Log\LoggerInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 
-class GetWotClanGetPlayersOnlineListCommand
+class GetWotClanGetPlayersOnlineListCommand implements iCommand
 {
     private array $playersOnlineList = [];
 
@@ -58,7 +58,7 @@ class GetWotClanGetPlayersOnlineListCommand
             if ($player['online_status'] === true) {
                 $playerOnline = new PlayerOnlineInfo();
                 $playerOnline->id = $player['id'];
-                $playerOnline->name  = $player['name'];
+                $playerOnline->name = $player['name'];
 
                 $onlinePlayerList[] = $playerOnline;
 

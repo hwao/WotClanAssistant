@@ -5,7 +5,7 @@ include_once __DIR__ . '/vendor/autoload.php';
 $config = require_once __DIR__ . '/config.php';
 
 $log = new \Monolog\Logger('v-clan');
-$log->pushHandler(new \Monolog\Handler\StreamHandler(__DIR__ . '/var/app.log', \Monolog\Level::Info));
+$log->pushHandler(new \Monolog\Handler\StreamHandler(__DIR__ . '/var/players_online.log', \Monolog\Level::Info));
 
 $cache = new \Symfony\Component\Cache\Adapter\FilesystemAdapter('', 0, __DIR__ . '/var/cache');
 

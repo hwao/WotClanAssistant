@@ -5,7 +5,7 @@ include_once __DIR__ . '/vendor/autoload.php';
 $config = require_once __DIR__ . '/config.php';
 
 $log = new \Monolog\Logger('v-clan');
-$log->pushHandler(new \Monolog\Handler\StreamHandler(__DIR__ . '/var/recruit.log', \Monolog\Level::Debug));
+$log->pushHandler(new \Monolog\Handler\StreamHandler(__DIR__ . '/var/run_recruit_approve.log', \Monolog\Level::Info));
 
 $cache = new \Symfony\Component\Cache\Adapter\FilesystemAdapter('', 0, __DIR__ . '/var/cache');
 
@@ -22,20 +22,20 @@ for ($i = 0; $i < 3; $i++) {
         return $wotClanWebCrawler->getClanMemberSessionId();
     });
 
-    $recrutList = [];
+    $applicationList = [];
     try {
-        $recrutList = $wotClanWebCrawler->getClanRecruitList($clanMemberSessionId);
+        $applicationList = $wotClanWebCrawler->getClanApplicationList($clanMemberSessionId);
 
-        var_dump( count( $recrutList ) );
+        var_dump(count($applicationList));
 
-        foreach ($recrutList as $recrut) {
-            $wotClanWebCrawler->sendInvitationToClan(
-                $recrut,
+        foreach ($applicationList as $application) {
+            $wotClanWebCrawler->sendClanApplicationAccept(
+                $application,
                 $clanMemberSessionId
             );
 
-            var_dump($recrut->name);
-            var_dump( 'https://pl.wot-life.com/eu/player/player-'.$recrut->id.'/');
+            var_dump($application->account->name);
+            var_dump( 'https://pl.wot-life.com/eu/player/player-'.$application->account->id.'/');
         }
 
         return true;

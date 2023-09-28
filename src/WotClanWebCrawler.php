@@ -5,7 +5,9 @@ namespace hwao\WotClanTools;
 use Facebook\WebDriver\Remote\RemoteWebDriver;
 use hwao\WotClanTools\Command\GetWotClanGetPlayersOnlineListCommand;
 use hwao\WotClanTools\Command\GetWotClanMemberSessionIdCommand;
+use hwao\WotClanTools\Command\GetWotClanRecruitApplicationCommand;
 use hwao\WotClanTools\Command\GetWotClanRecruitRecommendedAccountsCommand;
+use hwao\WotClanTools\Command\SendWotClanApplicationAcceptCommand;
 use Psr\Log\LoggerInterface;
 
 class WotClanWebCrawler
@@ -66,6 +68,22 @@ class WotClanWebCrawler
         return $getWotClanRecruitRecommendedAccountsCommand->getRecruitList();
     }
 
+    /**
+     * @return GetWotClanRecruitApplicationCommand\ClanApplication[]
+     */
+    public function getClanApplicationList(string $clanMemberSessionId) : array
+    {
+        $getWotClanRecruitApplicationCommand = new GetWotClanRecruitApplicationCommand(
+            $clanMemberSessionId,
+            \Symfony\Component\HttpClient\HttpClient::create(),
+            $this->log
+        );
+
+        $getWotClanRecruitApplicationCommand->execute();
+
+        return $getWotClanRecruitApplicationCommand->getApplicationList();
+    }
+
     public function sendInvitationToClan(GetWotClanRecruitRecommendedAccountsCommand\Account $recrut, string $clanMemberSessionId)
     {
         $sendWotClanInviteCommand = new \hwao\WotClanTools\Command\SendWotClanInviteCommand(
@@ -75,6 +93,18 @@ class WotClanWebCrawler
             $this->log
         );
         $sendWotClanInviteCommand->execute();
+    }
+
+    public function sendClanApplicationAccept(GetWotClanRecruitApplicationCommand\ClanApplication $application, string $clanMemberSessionId)
+    {
+        $sendWotClanApplicationAcceptCommand = new SendWotClanApplicationAcceptCommand(
+            $application,
+            $clanMemberSessionId,
+            \Symfony\Component\HttpClient\HttpClient::create(),
+            $this->log
+        );
+
+        $sendWotClanApplicationAcceptCommand->execute();
     }
 
     private static function createDriverChrome()

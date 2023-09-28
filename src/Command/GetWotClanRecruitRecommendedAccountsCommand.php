@@ -8,7 +8,7 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class GetWotClanRecruitRecommendedAccountsCommand implements iCommand
 {
-    const REQUIRED_BATTLE_LIMIT_FROM_28_DAYS = 100;
+    const REQUIRED_BATTLE_LIMIT_FROM_28_DAYS = 10;
 
     private array $recruitList = [];
 
@@ -40,9 +40,10 @@ class GetWotClanRecruitRecommendedAccountsCommand implements iCommand
             $last = $count;
 
             $this->log->debug(sprintf(
-                'Find recruit on compliance_level %d: %d',
+                'Find recruit on compliance_level %d: %d (from: %d)',
                 $compliance_level,
-                $find
+                $find,
+                $count
             ));
         }
     }
@@ -72,7 +73,10 @@ class GetWotClanRecruitRecommendedAccountsCommand implements iCommand
 
         $response_json = json_decode($response->getContent(), true);
 
+//        $response->getStatusCode()
+
         $this->log->debug('Successful get recruit list offset: ' . $compliance_level);
+//        $this->log->debug('Test: ' . print_r($response_json, true));
 
         $result = [];
         foreach ($response_json['accounts'] as $account) {

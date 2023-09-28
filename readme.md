@@ -23,6 +23,7 @@ mkdir var/
 mkdir var/cache/
 touch var/players_online.log 
 touch var/recruit.log
+touch var/run_recruit_approve.log
 ```
 
 
@@ -33,5 +34,6 @@ crontab -e
 
 */15 * * * * php /home/hwao/Documents/php/WotClanPlayerStatus/run_players_online.php
 */20 * * * * php /home/hwao/Documents/php/WotClanPlayerStatus/run_recruit.php
+*/10 * * * * php /home/hwao/Documents/php/WotClanPlayerStatus/run_recruit_approve.php
 
 ```

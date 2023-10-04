@@ -133,9 +133,11 @@ class WotClanWebCrawler
 
 // Start the browser with $capabilities
 // A) When using RemoteWebDriver::create()
-//$driver = \Facebook\WebDriver\Remote\RemoteWebDriver::create($serverUrl, $capabilities);
+        $serverUrl = 'http://10.0.0.250:4444';
+        $driver = \Facebook\WebDriver\Remote\RemoteWebDriver::create($serverUrl, $capabilities);
+
 // B) When using ChromeDriver::start to start local Chromedriver
-        $driver = \Facebook\WebDriver\Chrome\ChromeDriver::start($capabilities);
+//        $driver = \Facebook\WebDriver\Chrome\ChromeDriver::start($capabilities);
 
         return $driver;
     }

@@ -21,7 +21,11 @@ class GetWotClanMemberSessionIdCommand implements iCommand
 
     public function execute()
     {
-        $sessionId = $this->getSessionIdFromWeb();
+        try {
+            $sessionId = $this->getSessionIdFromWeb();
+        } finally {
+            $this->webDriver->quit();
+        }
 
         if ($sessionId === null) {
             $this->log->error('No session ID');
@@ -99,8 +103,6 @@ class GetWotClanMemberSessionIdCommand implements iCommand
         }
 
         $this->log->warning('Clan page as logged: coundnt find session');
-
-        $this->webDriver->quit();
 
         return null;
     }
